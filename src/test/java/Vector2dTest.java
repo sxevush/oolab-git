@@ -1,7 +1,7 @@
 import agh.ics.oop.Vector2d;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class Vector2dTest {
@@ -9,9 +9,9 @@ public class Vector2dTest {
     @Test
     void testEquals() {
         String arg = "(0, 1)";
-        assertEquals(new Vector2d(0, 1).equals(new Vector2d(0, 1)), true);
-        assertEquals(new Vector2d(0, 1).equals(new Vector2d(1, 1)), false);
-        assertEquals(new Vector2d(0, 1).equals(arg), false);
+        assertEquals(new Vector2d(0, 1), new Vector2d(0, 1));
+        assertNotEquals(new Vector2d(0, 1), new Vector2d(1, 1));
+        assertNotEquals(new Vector2d(0, 1), arg);
     }
 
     @Test
@@ -22,14 +22,14 @@ public class Vector2dTest {
 
     @Test
     void testPrecedes() {
-        assertEquals(new Vector2d(0, 1).precedes(new Vector2d(1, 0)), false);
-        assertEquals(new Vector2d(0, 1).precedes(new Vector2d(1, 2)), true);
+        assertFalse(new Vector2d(0, 1).precedes(new Vector2d(1, 0)));
+        assertTrue(new Vector2d(0, 1).precedes(new Vector2d(1, 2)));
     }
 
     @Test
     void testFollows() {
-        assertEquals(new Vector2d(0, 1).follows(new Vector2d(1, 0)), false);
-        assertEquals(new Vector2d(0, 1).follows(new Vector2d(-1, -2)), true);
+        assertFalse(new Vector2d(0, 1).follows(new Vector2d(1, 0)));
+        assertTrue(new Vector2d(0, 1).follows(new Vector2d(-1, -2)));
     }
 
     @Test

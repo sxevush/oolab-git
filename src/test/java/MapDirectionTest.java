@@ -7,18 +7,18 @@ public class MapDirectionTest {
 
     @Test
     void testNext () {
-        assertEquals(MapDirection.NORTH.next(), MapDirection.EAST);
-        assertEquals(MapDirection.EAST.next(), MapDirection.SOUTH);
-        assertEquals(MapDirection.SOUTH.next(), MapDirection.WEST);
-        assertEquals(MapDirection.WEST.next(), MapDirection.NORTH);
+        assertEquals(MapDirection.EAST, MapDirection.NORTH.next());
+        assertEquals(MapDirection.SOUTH, MapDirection.EAST.next());
+        assertEquals(MapDirection.WEST, MapDirection.SOUTH.next());
+        assertEquals(MapDirection.NORTH, MapDirection.WEST.next());
     }
 
     @Test
     void testPrevious () {
-        assertEquals(MapDirection.NORTH.previous(), MapDirection.WEST);
-        assertEquals(MapDirection.WEST.previous(), MapDirection.SOUTH);
-        assertEquals(MapDirection.SOUTH.previous(), MapDirection.EAST);
-        assertEquals(MapDirection.EAST.previous(), MapDirection.NORTH);
+        assertEquals(MapDirection.WEST, MapDirection.NORTH.previous());
+        assertEquals(MapDirection.SOUTH, MapDirection.WEST.previous());
+        assertEquals(MapDirection.EAST, MapDirection.SOUTH.previous());
+        assertEquals(MapDirection.NORTH, MapDirection.EAST.previous());
     }
 
 }
