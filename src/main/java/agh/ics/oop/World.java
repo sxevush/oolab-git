@@ -1,5 +1,4 @@
 package agh.ics.oop;
-
 import static java.lang.System.out;
 
 
@@ -27,14 +26,11 @@ public class World {
 
         out.print("\n");
 
-//        String joinedDirections = String.join(", ", tab);
-//        out.print(joinedDirections);
-
         int n = tab.length;
         for (int i = 0; i < n-1; i++) {
             out.print(tab[i] + ", ");
         }
-        out.print(tab[n-1]);
+        if (n > 0) { out.print(tab[n-1]); }
 
         out.print("\n");
 
@@ -64,6 +60,20 @@ public class World {
         Vector2d position2 = new Vector2d(-2,1);
         System.out.println(position2);
         System.out.println(position1.add(position2));
+
+        Animal Pysiu = new Animal();
+        OptionsParser parser = new OptionsParser();
+        MoveDirection[] parsedDirections = parser.parse(directions);
+
+        for (MoveDirection arg : parsedDirections) {
+            Pysiu.move(arg);
+        }
+
+        out.print(Pysiu);
+
+
+
+
 
 
 
