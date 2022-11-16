@@ -3,6 +3,9 @@ import static java.lang.System.out;
 
 
 public class World {
+    /*
+    public static final Vector2d LOWER_BOUND = new Vector2d(4, 4);
+    public static final Vector2d UPPER_BOUND = new Vector2d(0, 0);
 
     public static Direction[] change(String[] directions) {
         int n = directions.length;
@@ -45,32 +48,40 @@ public class World {
         }
     }
 
-    public static void main(String[] directions) {
-        out.print("system wystartowal");
-        out.print("\n");
+     */
 
-        Direction[] tab = change(directions);
-        run(tab);
+    public static void main(String[] args) {
+//        out.print("system wystartowal");
+//        out.print("\n");
+//
+//        Direction[] tab = change(directions);
+//        run(tab);
+//
+//        out.print("\n");
+//        out.print("system zakończyl dzialanie\n\n");
+//
+//        Vector2d position1 = new Vector2d(1,2);
+//        System.out.println(position1);
+//        Vector2d position2 = new Vector2d(-2,1);
+//        System.out.println(position2);
+//        System.out.println(position1.add(position2));
 
-        out.print("\n");
-        out.print("system zakończyl dzialanie\n\n");
 
-        Vector2d position1 = new Vector2d(1,2);
-        System.out.println(position1);
-        Vector2d position2 = new Vector2d(-2,1);
-        System.out.println(position2);
-        System.out.println(position1.add(position2));
+//        OptionsParser parser = new OptionsParser();
+//        MoveDirection[] parsedDirections = parser.parse(directions);
+//
+//        for (MoveDirection arg : parsedDirections) {
+//            Pysiu.move(arg);
+//        }
+//
 
-        Animal Pysiu = new Animal();
-        OptionsParser parser = new OptionsParser();
-        MoveDirection[] parsedDirections = parser.parse(directions);
 
-        for (MoveDirection arg : parsedDirections) {
-            Pysiu.move(arg);
-        }
-
-        out.print(Pysiu);
-
+        MoveDirection[] directions = new OptionsParser().parse(args);
+        IWorldMap map = new RectangularMap(10, 5);
+        Vector2d[] positions = { new Vector2d(2,2), new Vector2d(3,4) };
+        IEngine engine = new SimulationEngine(directions, map, positions);
+        engine.run();
+        out.print(map.toString());
 
 
 

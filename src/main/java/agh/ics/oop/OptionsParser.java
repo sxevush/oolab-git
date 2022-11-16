@@ -1,42 +1,28 @@
 package agh.ics.oop;
 
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Objects;
+import java.util.stream.Stream;
+
 public class OptionsParser {
     public MoveDirection[] parse(String[] args) {
 
-        int n = 0;
+        return Stream.of(args)
+                .map(OptionsParser::convertToMoveDirection)
+                .filter(Objects::nonNull)
+                .toArray(MoveDirection[]::new);
 
-        for (String arg : args) {
-            switch (arg) {
-                case "f", "l", "forward", "b", "backward", "right", "r", "left" -> n++;
-            }
-        }
+    }
 
-        MoveDirection[] result = new MoveDirection[n];
-
-        int cnt = 0;
-        for (String arg : args) {
-            switch (arg) {
-                case "f", "forward" -> {
-                    result[cnt] = MoveDirection.FORWARD;
-                    cnt++;
-                }
-                case "b", "backward" -> {
-                    result[cnt] = MoveDirection.BACKWARD;
-                    cnt++;
-                }
-                case "r", "right" -> {
-                    result[cnt] = MoveDirection.RIGHT;
-                    cnt++;
-                }
-                case "l", "left" -> {
-                    result[cnt] = MoveDirection.LEFT;
-                    cnt++;
-                }
-            }
-        }
-
-        return result;
-
-
+    @Nullable
+    private static MoveDirection convertToMoveDirection(String instruction) {
+        return switch (instruction) {
+            case "f", "forward" -> MoveDirection.FORWARD;
+            case "b", "backward" -> MoveDirection.BACKWARD;
+            case "r", "right" -> MoveDirection.RIGHT;
+            case "l", "left" -> MoveDirection.LEFT;
+            default -> null;
+        };
     }
 }
