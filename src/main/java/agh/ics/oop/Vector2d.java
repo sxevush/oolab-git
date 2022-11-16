@@ -1,13 +1,11 @@
 package agh.ics.oop;
-
 import org.jetbrains.annotations.NotNull;
-
 import java.util.Objects;
 
 public class Vector2d {
 
-    final int x;
-    final int y;
+    public final int x;
+    public final int y;
 
     public Vector2d(int x, int y) {
         this.x = x;
@@ -34,11 +32,14 @@ public class Vector2d {
 
     public Vector2d opposite() { return new Vector2d(-x, -y); }
 
+    @Override
     public boolean equals(Object other) {
         if (this == other) return true;
         else if (!(other instanceof Vector2d)) return false;
         else return this.x == ((Vector2d) other).x && this.y == ((Vector2d) other).y;
     }
-
+    @Override
     public int hashCode() { return Objects.hash(x, y); }
+
+
 }
