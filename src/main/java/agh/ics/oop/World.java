@@ -51,42 +51,13 @@ public class World {
      */
 
     public static void main(String[] args) {
-//        out.print("system wystartowal");
-//        out.print("\n");
-//
-//        Direction[] tab = change(directions);
-//        run(tab);
-//
-//        out.print("\n");
-//        out.print("system zakończyl dzialanie\n\n");
-//
-//        Vector2d position1 = new Vector2d(1,2);
-//        System.out.println(position1);
-//        Vector2d position2 = new Vector2d(-2,1);
-//        System.out.println(position2);
-//        System.out.println(position1.add(position2));
-
-
-//        OptionsParser parser = new OptionsParser();
-//        MoveDirection[] parsedDirections = parser.parse(directions);
-//
-//        for (MoveDirection arg : parsedDirections) {
-//            Pysiu.move(arg);
-//        }
-//
-
 
         MoveDirection[] directions = new OptionsParser().parse(args);
-        IWorldMap map = new RectangularMap(10, 5);
+        GrassField map = new GrassField(10);
         Vector2d[] positions = { new Vector2d(2,2), new Vector2d(3,4) };
         IEngine engine = new SimulationEngine(directions, map, positions);
         engine.run();
         out.print(map.toString());
-
-
-
-
-
 
     }
 

@@ -1,44 +1,32 @@
 package agh.ics.oop;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-public class RectangularMap implements IWorldMap {
+public class RectangularMap extends AbstractWorldMap {
 
-    private final int width;
-    private final int height;
     public static final Vector2d LOWER_LEFT_MAP = new Vector2d(0, 0);
+    protected Vector2d sizeOfMap;
+    protected List<Animal> animals = new ArrayList<>();
 
 
-    public List<Animal> animals = new ArrayList<>();
-
-
-    public RectangularMap(int width, int height) {
-        this.width = width;
-        this.height = height;
+    public RectangularMap(Vector2d sizeOfMap) {
+        this.sizeOfMap = sizeOfMap;
     }
-
 
 
     @Override
     public boolean canMoveTo(Vector2d position) {
-        if (position != null) {
-            if (!isOccupied(position)) {
-                return (position.follows(LOWER_LEFT_MAP) && position.precedes(new Vector2d(width, height)));
-            }
-        }
-        return false;
+        return position.follows(LOWER_LEFT_MAP)
+                && position.precedes(sizeOfMap)
+                && !this.isOccupied(position);
     }
 
-    @Override
+
     public boolean isOccupied(Vector2d position) {
-        for (Animal animal : animals) {
-            if (position.equals(animal.getAnimalPosition())) {
-                return true;
-            }
-        }
-        return false;
+        return animals.stream()
+                .anyMatch(animal -> Objects.equals(position, animal.getAnimalPosition()));
     }
+
 
     @Override
     public boolean place(Animal animal) {
@@ -50,16 +38,32 @@ public class RectangularMap implements IWorldMap {
     }
 
     @Override
-    public Object objectAt(Vector2d position) {
-        for (Animal animal : animals) {
-            if (isOccupied(animal.getAnimalPosition())) { return animal; }
-        }
-        return null;
+    public boolean isOccupiedAnimal(Vector2d position) {
+        return false;
     }
+
+    @Override
+    public boolean isOccupiedGrass(Vector2d position) {
+        return false;
+    }
+
+
+    @Override
+    public Animal objectAt(Vector2d position) {
+        return animals.stream()
+                .filter(animal -> Objects.equals(position, animal.getAnimalPosition()))
+                .findFirst()
+                .orElse(null);
+    }
+
+    public List<Animal> getAnimals() {
+        return Collections.unmodifiableList(animals); // not to change animals
+    }
+
 
     @Override
     public String toString() {
         MapVisualizer drawing = new MapVisualizer(this);
-        return drawing.draw(LOWER_LEFT_MAP, new Vector2d(width, height));
+        return drawing.draw(LOWER_LEFT_MAP, sizeOfMap);
     }
 }

@@ -4,18 +4,22 @@ import java.util.Objects;
 
 public class Animal {
 
-    private Vector2d initialPosition = new Vector2d(2, 2);
-    private IWorldMap map;
-    private MapDirection animalDirection = MapDirection.NORTH;
+    private GrassField map;
+    private MapDirection animalDirection;
     private Vector2d animalPosition;
 
-    public Animal(IWorldMap map) {
-        this.map = map;
-    }
+//    public Animal() {
+//        this(new GrassField());
+//    }
 
-    public Animal(IWorldMap map, Vector2d initialPosition) {
+    public Animal(GrassField map, Vector2d initialPosition) {
         this.map = map;
         this.animalPosition = initialPosition;
+        this.animalDirection = MapDirection.NORTH;
+    }
+
+    public Animal(GrassField map) {
+        this(map, new Vector2d(2, 2));
     }
 
     public Vector2d getAnimalPosition() {
@@ -56,13 +60,7 @@ public class Animal {
                     }
                 }
             }
-            //        animalPosition = animalPosition.lowerLeft(World.LOWER_BOUND)
-//                .upperRight(World.UPPER_BOUND);
         }
-
-
-
-
     }
 
 
