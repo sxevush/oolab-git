@@ -6,29 +6,42 @@ import java.util.Objects;
 import java.util.Random;
 import java.lang.Math;
 
-import static java.lang.System.out;
-
 public class GrassField extends AbstractWorldMap {
 
-
-    private static final Vector2d LOWER_LEFT_MAP = new Vector2d(0, 0);
     private final int fieldsOfGrass;
     public GrassField(int fieldsOfGrass) {
         this.fieldsOfGrass = fieldsOfGrass;
         putGrassFields();
     }
 
-    public int getFieldsOfGrass() {
-        return fieldsOfGrass;
-    }
-
     protected List<Grass> grass = new ArrayList<>();
-    protected List<Animal> animals = new ArrayList<>();
 
     Random rand = new Random();
 
-    int MAX_VALUE = (int)Double.POSITIVE_INFINITY;
-    protected Vector2d sizeOfMap = new Vector2d(0, 0);
+    @Override
+    public Vector2d countLowerLeft () {
+        Vector2d lowerLeftResult = new Vector2d(0, 0);
+        for (Animal animal : animals) {
+            lowerLeftResult = animal.getAnimalPosition().lowerLeft(lowerLeftResult);
+        }
+        for (Grass grass1 : grass) {
+            lowerLeftResult = grass1.getGrassPosition().lowerLeft(lowerLeftResult);
+        }
+        return lowerLeftResult;
+    }
+
+    @Override
+    public Vector2d countUpperRight () {
+        Vector2d upperRightResult = new Vector2d(0, 0);
+        for (Animal animal : animals) {
+            upperRightResult = animal.getAnimalPosition().upperRight(upperRightResult);
+        }
+        for (Grass grass1 : grass) {
+            upperRightResult = grass1.getGrassPosition().upperRight(upperRightResult);
+        }
+
+        return upperRightResult;
+    }
 
     public void putGrassFields () {
         for (int i = 0; i < fieldsOfGrass; i++) {
@@ -41,32 +54,17 @@ public class GrassField extends AbstractWorldMap {
                 positionOfGrass = new Vector2d (grassX, grassY);
             }
             Grass newGrass = new Grass(positionOfGrass);
-            out.print(newGrass.getGrassPosition());
-            sizeOfMap = newGrass.getGrassPosition().upperRight(sizeOfMap);
+//            upperRightMap = newGrass.getGrassPosition().upperRight(upperRightMap);
             grass.add(newGrass);
         }
     }
 
     @Override
     public boolean canMoveTo(Vector2d position) {
-        return (position.follows(LOWER_LEFT_MAP)
-                && !this.isOccupiedAnimal(position));
+        return (!this.isOccupiedAnimal(position));
     }
 
-    @Override
-    public boolean place(Animal animal) {
-        if (canMoveTo(animal.getAnimalPosition())) {
-            animals.add(animal);
-            return true;
-        }
-        return false;
-    }
 
-    @Override
-    public boolean isOccupiedAnimal(Vector2d position) {
-        return animals.stream()
-                .anyMatch(animal -> Objects.equals(position, animal.getAnimalPosition()));
-    }
 
     public boolean isOccupiedGrass(Vector2d position) {
         return grass.stream()
@@ -87,6 +85,7 @@ public class GrassField extends AbstractWorldMap {
                 .findFirst()
                 .orElse(null);
     }
+
     @Override
     public Object objectAt(Vector2d position) {
         if (objectAtAnimal(position) != null) {
@@ -95,10 +94,5 @@ public class GrassField extends AbstractWorldMap {
         return objectAtGrass(position);
     }
 
-    @Override
-    public String toString() {
-        MapVisualizer drawing = new MapVisualizer(this);
-        out.print(sizeOfMap);
-        return drawing.draw(LOWER_LEFT_MAP, sizeOfMap);
-    }
+
 }

@@ -1,5 +1,6 @@
 package agh.ics.oop;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,7 +21,7 @@ public interface IWorldMap {
     boolean canMoveTo(Vector2d position);
 
     /**
-     * Place a animal on the map.
+     * Place an animal on the map.
      *
      * @param animal
      *            The animal to place on the map.
@@ -49,6 +50,8 @@ public interface IWorldMap {
      * @return Object or null if the position is not occupied.
      */
     Object objectAt(Vector2d position);
+
+    List<Animal> animals = new ArrayList<>();
 
 
 }
