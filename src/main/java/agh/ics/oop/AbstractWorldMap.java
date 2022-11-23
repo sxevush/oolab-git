@@ -1,17 +1,20 @@
 package agh.ics.oop;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public abstract class AbstractWorldMap implements IWorldMap {
 
-    protected Vector2d lowerLeftMap;
-    protected Vector2d upperRightMap;
-    abstract public boolean canMoveTo(Vector2d position);
+    abstract protected Vector2d countLowerLeft ();
 
+    abstract protected Vector2d countUpperRight ();
+    protected List<Animal> animals = new ArrayList<>();
 
-    abstract public Vector2d countLowerLeft ();
+    public List<Animal> getAnimals() {
+        return List.copyOf(animals);
+    }
 
-    abstract public Vector2d countUpperRight ();
 
     @Override
     public boolean isOccupiedAnimal(Vector2d position) {
@@ -31,8 +34,7 @@ public abstract class AbstractWorldMap implements IWorldMap {
     @Override
     public String toString() {
         MapVisualizer drawing = new MapVisualizer(this);
-        this.lowerLeftMap = countLowerLeft();
-        this.upperRightMap = countUpperRight();
-        return drawing.draw(lowerLeftMap, upperRightMap);
+        return drawing.draw(countLowerLeft(), countUpperRight());
     }
+
 }

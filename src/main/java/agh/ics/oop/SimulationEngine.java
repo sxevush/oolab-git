@@ -26,7 +26,7 @@ public class SimulationEngine implements IEngine {
     @Override
     public void run() {
         for (int i = 0; i < directions.length; i++) {
-            Animal currentAnimal = map.animals.get(i % map.animals.size());
+            Animal currentAnimal = map.getAnimals().get(i % map.getAnimals().size());
             currentAnimal.move(directions[i]);
         }
     }

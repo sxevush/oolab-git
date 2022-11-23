@@ -8,19 +8,15 @@ import java.lang.Math;
 
 public class GrassField extends AbstractWorldMap {
 
-    private final int fieldsOfGrass;
     public GrassField(int fieldsOfGrass) {
-        this.fieldsOfGrass = fieldsOfGrass;
-        putGrassFields();
+        putGrassFields(fieldsOfGrass);
     }
 
     protected List<Grass> grass = new ArrayList<>();
 
-    Random rand = new Random();
-
     @Override
     public Vector2d countLowerLeft () {
-        Vector2d lowerLeftResult = new Vector2d(0, 0);
+        Vector2d lowerLeftResult = animals.get(0).getAnimalPosition();
         for (Animal animal : animals) {
             lowerLeftResult = animal.getAnimalPosition().lowerLeft(lowerLeftResult);
         }
@@ -32,7 +28,7 @@ public class GrassField extends AbstractWorldMap {
 
     @Override
     public Vector2d countUpperRight () {
-        Vector2d upperRightResult = new Vector2d(0, 0);
+        Vector2d upperRightResult = animals.get(0).getAnimalPosition();
         for (Animal animal : animals) {
             upperRightResult = animal.getAnimalPosition().upperRight(upperRightResult);
         }
@@ -43,18 +39,20 @@ public class GrassField extends AbstractWorldMap {
         return upperRightResult;
     }
 
-    public void putGrassFields () {
+    public void putGrassFields (int fieldsOfGrass) {
         for (int i = 0; i < fieldsOfGrass; i++) {
-            int grassX = rand.nextInt((int) Math.sqrt(fieldsOfGrass*10)+1);
-            int grassY = rand.nextInt((int) Math.sqrt(fieldsOfGrass*10)+1);
+            int grassX = new Random().nextInt((int) Math.sqrt(fieldsOfGrass*10)+1);
+            int grassY = new Random().nextInt((int) Math.sqrt(fieldsOfGrass*10)+1);
             Vector2d positionOfGrass = new Vector2d (grassX, grassY);
+
+            //collections.shuffle()
+            //random generator - new random. nextInt(a, b);
             while (isOccupiedGrass(positionOfGrass)) {
-                grassX = rand.nextInt((int) Math.sqrt(fieldsOfGrass*10)+1);
-                grassY = rand.nextInt((int) Math.sqrt(fieldsOfGrass*10)+1);
+                grassX = new Random().nextInt((int) Math.sqrt(fieldsOfGrass*10)+1);
+                grassY = new Random().nextInt((int) Math.sqrt(fieldsOfGrass*10)+1);
                 positionOfGrass = new Vector2d (grassX, grassY);
             }
             Grass newGrass = new Grass(positionOfGrass);
-//            upperRightMap = newGrass.getGrassPosition().upperRight(upperRightMap);
             grass.add(newGrass);
         }
     }
@@ -62,6 +60,9 @@ public class GrassField extends AbstractWorldMap {
     @Override
     public boolean canMoveTo(Vector2d position) {
         return (!this.isOccupiedAnimal(position));
+
+        // objectAt
+        // obj instanceof grass
     }
 
 

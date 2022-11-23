@@ -12,10 +12,10 @@ public class Lab4Testy {
         Vector2d[] positions = { new Vector2d(2,2), new Vector2d(3,4) };
         SimulationEngine engine = new SimulationEngine(directions, map, positions);
         engine.run();
-        Animal animal1 = map.animals.get(0);
+        Animal animal1 = map.getAnimals().get(0);
         Vector2d res1 = animal1.getAnimalPosition();
         String res11 = animal1.toString();
-        Animal animal2 = map.animals.get(1);
+        Animal animal2 = map.getAnimals().get(1);
         Vector2d res2 = animal2.getAnimalPosition();
         String res22 = animal2.toString();
         Assertions.assertEquals(res1, new Vector2d(2, 3));
@@ -31,10 +31,10 @@ public class Lab4Testy {
         Vector2d[] positions = { new Vector2d(2,2), new Vector2d(3,4) };
         SimulationEngine engine = new SimulationEngine(directions, map, positions);
         engine.run();
-        Animal animal1 = map.animals.get(0);
+        Animal animal1 = map.getAnimals().get(0);
         Vector2d res1 = animal1.getAnimalPosition();
         String res11 = animal1.toString();
-        Animal animal2 = map.animals.get(1);
+        Animal animal2 = map.getAnimals().get(1);
         Vector2d res2 = animal2.getAnimalPosition();
         String res22 = animal2.toString();
         Assertions.assertEquals(res1, new Vector2d(3, 3));
