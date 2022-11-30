@@ -1,26 +1,26 @@
 package agh.ics.oop;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 import java.lang.Math;
 
 public class GrassField extends AbstractWorldMap {
 
+    int POSITIVE_INFINITY = Integer.MAX_VALUE;
+    int NEGATIVE_INFINITY = Integer.MIN_VALUE;
     public GrassField(int fieldsOfGrass) {
         putGrassFields(fieldsOfGrass);
     }
 
-    protected List<Grass> grass = new ArrayList<>();
+    protected Map<Vector2d, Grass> grass = new HashMap<>();
 
     @Override
     public Vector2d countLowerLeft () {
-        Vector2d lowerLeftResult = animals.get(0).getAnimalPosition();
-        for (Animal animal : animals) {
+        Vector2d lowerLeftResult = new Vector2d(POSITIVE_INFINITY, POSITIVE_INFINITY);
+
+        for (Animal animal : animals.values()) {
             lowerLeftResult = animal.getAnimalPosition().lowerLeft(lowerLeftResult);
         }
-        for (Grass grass1 : grass) {
+        for (Grass grass1 : grass.values()) {
             lowerLeftResult = grass1.getGrassPosition().lowerLeft(lowerLeftResult);
         }
         return lowerLeftResult;
@@ -28,11 +28,11 @@ public class GrassField extends AbstractWorldMap {
 
     @Override
     public Vector2d countUpperRight () {
-        Vector2d upperRightResult = animals.get(0).getAnimalPosition();
-        for (Animal animal : animals) {
+        Vector2d upperRightResult = new Vector2d(NEGATIVE_INFINITY, NEGATIVE_INFINITY);
+        for (Animal animal : animals.values()) {
             upperRightResult = animal.getAnimalPosition().upperRight(upperRightResult);
         }
-        for (Grass grass1 : grass) {
+        for (Grass grass1 : grass.values()) {
             upperRightResult = grass1.getGrassPosition().upperRight(upperRightResult);
         }
 
@@ -53,7 +53,7 @@ public class GrassField extends AbstractWorldMap {
                 positionOfGrass = new Vector2d (grassX, grassY);
             }
             Grass newGrass = new Grass(positionOfGrass);
-            grass.add(newGrass);
+            grass.put(positionOfGrass, newGrass);
         }
     }
 
@@ -68,23 +68,16 @@ public class GrassField extends AbstractWorldMap {
 
 
     public boolean isOccupiedGrass(Vector2d position) {
-        return grass.stream()
-                .anyMatch(grass1 -> Objects.equals(position, grass1.getGrassPosition()));
+        return grass.containsKey(position);
     }
 
 
     public Animal objectAtAnimal(Vector2d position) {
-        return animals.stream()
-                .filter(animal -> Objects.equals(position, animal.getAnimalPosition()))
-                .findFirst()
-                .orElse(null);
+        return animals.getOrDefault(position, null);
     }
 
     public Grass objectAtGrass(Vector2d position) {
-        return grass.stream()
-                .filter(grass -> Objects.equals(position, grass.getGrassPosition()))
-                .findFirst()
-                .orElse(null);
+        return grass.getOrDefault(position, null);
     }
 
     @Override

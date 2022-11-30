@@ -1,6 +1,6 @@
 package agh.ics.oop;
 
-import java.util.List;
+import java.util.Map;
 
 /**
  * The interface responsible for interacting with the map of the world.
@@ -52,6 +52,6 @@ public interface IWorldMap {
      * @return Object or null if the position is not occupied.
      */
     Object objectAt(Vector2d position);
-    List<Animal> getAnimals();
+    Map<Vector2d, Animal> getAnimals();
 
 }

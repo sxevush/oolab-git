@@ -1,7 +1,5 @@
 package agh.ics.oop;
 
-import java.util.*;
-
 public class RectangularMap extends AbstractWorldMap {
 
     protected final Vector2d lowerLeftMap = new Vector2d(0, 0);
@@ -35,10 +33,7 @@ public class RectangularMap extends AbstractWorldMap {
 
     @Override
     public Animal objectAt(Vector2d position) {
-        return animals.stream()
-                .filter(animal -> Objects.equals(position, animal.getAnimalPosition()))
-                .findFirst()
-                .orElse(null);
+        return animals.getOrDefault(position, null);
     }
 
 
