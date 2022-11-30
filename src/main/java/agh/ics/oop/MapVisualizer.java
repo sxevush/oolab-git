@@ -10,7 +10,7 @@ public class MapVisualizer {
     private static final String EMPTY_CELL = " ";
     private static final String FRAME_SEGMENT = "-";
     private static final String CELL_SEGMENT = "|";
-    private IWorldMap map;
+    private final IWorldMap map;
 
     /**
      * Initializes the MapVisualizer with an instance of map to visualize.
@@ -70,15 +70,24 @@ public class MapVisualizer {
     }
 
     private String drawObject(Vector2d currentPosition) {
-        String result = null;
-        if (this.map.isOccupied(currentPosition)) {
+        String result;
+        if (this.map.isOccupiedAnimal(currentPosition)) {
             Object object = this.map.objectAt(currentPosition);
             if (object != null) {
                 result = object.toString();
             } else {
                 result = EMPTY_CELL;
             }
-        } else {
+        } else if (this.map.isOccupiedGrass(currentPosition)) {
+            Object object = this.map.objectAt(currentPosition);
+            if (object != null) {
+                result = object.toString();
+            } else {
+                result = EMPTY_CELL;
+            }
+
+        }
+        else {
             result = EMPTY_CELL;
         }
         return result;

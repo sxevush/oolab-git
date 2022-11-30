@@ -1,30 +1,22 @@
 package agh.ics.oop;
 
-import java.util.Objects;
-
 public class Animal {
 
-    private Vector2d initialPosition = new Vector2d(2, 2);
-    private IWorldMap map;
-    private MapDirection animalDirection = MapDirection.NORTH;
+    private final IWorldMap map;
+    private MapDirection animalDirection;
     private Vector2d animalPosition;
-
-    public Animal(IWorldMap map) {
-        this.map = map;
-    }
 
     public Animal(IWorldMap map, Vector2d initialPosition) {
         this.map = map;
         this.animalPosition = initialPosition;
+        this.animalDirection = MapDirection.NORTH;
     }
+
 
     public Vector2d getAnimalPosition() {
         return animalPosition;
     }
 
-    public MapDirection getAnimalDirection() {
-        return animalDirection;
-    }
 
     @Override
     public String toString() {
@@ -36,7 +28,6 @@ public class Animal {
         };
     }
 
-    public boolean isAt(Vector2d position) { return Objects.equals(animalPosition, position); }
 
     public void move(MoveDirection direction) {
         {
@@ -56,13 +47,7 @@ public class Animal {
                     }
                 }
             }
-            //        animalPosition = animalPosition.lowerLeft(World.LOWER_BOUND)
-//                .upperRight(World.UPPER_BOUND);
         }
-
-
-
-
     }
 
 

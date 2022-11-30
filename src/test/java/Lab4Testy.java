@@ -8,7 +8,7 @@ public class Lab4Testy {
     public void basicTest() {
         String[] pom = {"f", "b", "r", "l"};
         MoveDirection[] directions = new OptionsParser().parse(pom);
-        RectangularMap map = new RectangularMap(10, 5);
+        RectangularMap map = new RectangularMap(new Vector2d(10, 5));
         Vector2d[] positions = { new Vector2d(2,2), new Vector2d(3,4) };
         SimulationEngine engine = new SimulationEngine(directions, map, positions);
         engine.run();
@@ -19,15 +19,15 @@ public class Lab4Testy {
         Vector2d res2 = animal2.getAnimalPosition();
         String res22 = animal2.toString();
         Assertions.assertEquals(res1, new Vector2d(2, 3));
-        Assertions.assertEquals(res11, "W");
+        Assertions.assertEquals(res11, "E");
         Assertions.assertEquals(res2, new Vector2d(3, 3));
-        Assertions.assertEquals(res22, "N");
+        Assertions.assertEquals(res22, "W");
     }
     @Test
     public void basicTestWithDifferentData() {
         String[] pom = {"f", "b", "r", "l", "f", "f", "r", "r", "f", "f", "f", "f", "f", "f", "f", "f"};
         MoveDirection[] directions = new OptionsParser().parse(pom);
-        RectangularMap map = new RectangularMap(10, 5);
+        RectangularMap map = new RectangularMap(new Vector2d(10, 5));
         Vector2d[] positions = { new Vector2d(2,2), new Vector2d(3,4) };
         SimulationEngine engine = new SimulationEngine(directions, map, positions);
         engine.run();
@@ -37,9 +37,9 @@ public class Lab4Testy {
         Animal animal2 = map.animals.get(1);
         Vector2d res2 = animal2.getAnimalPosition();
         String res22 = animal2.toString();
-        Assertions.assertEquals(res1, new Vector2d(2, 5));
-        Assertions.assertEquals(res11, "N");
-        Assertions.assertEquals(res2, new Vector2d(5, 4));
-        Assertions.assertEquals(res22, "E");
+        Assertions.assertEquals(res1, new Vector2d(3, 3));
+        Assertions.assertEquals(res11, "E");
+        Assertions.assertEquals(res2, new Vector2d(4, 3));
+        Assertions.assertEquals(res22, "W");
     }
 }
