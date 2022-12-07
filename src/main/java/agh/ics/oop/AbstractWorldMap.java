@@ -1,28 +1,35 @@
 package agh.ics.oop;
 
-import java.util.Objects;
+import java.util.*;
 
-public abstract class AbstractWorldMap implements IWorldMap {
+public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver {
 
-    protected Vector2d lowerLeftMap;
-    protected Vector2d upperRightMap;
-    abstract public boolean canMoveTo(Vector2d position);
+    abstract protected Vector2d countLowerLeft ();
 
+    abstract protected Vector2d countUpperRight ();
+    protected Map<Vector2d, Animal> animals = new HashMap<>();
 
-    abstract public Vector2d countLowerLeft ();
+    public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
+        animals.put(newPosition, animals.get(oldPosition));
+        animals.remove(oldPosition);
+    }
 
-    abstract public Vector2d countUpperRight ();
+    public Map<Vector2d, Animal> getAnimals() {
+        return animals;
+    }
+
 
     @Override
     public boolean isOccupiedAnimal(Vector2d position) {
-        return animals.stream()
-                .anyMatch(animal -> Objects.equals(position, animal.getAnimalPosition()));
+        return animals.containsKey(position);
     }
+
 
     @Override
     public boolean place(Animal animal) {
         if (canMoveTo(animal.getAnimalPosition())) {
-            animals.add(animal);
+            animals.put(animal.getAnimalPosition(), animal);
+            animal.addObserver(this);
             return true;
         }
         return false;
@@ -31,8 +38,7 @@ public abstract class AbstractWorldMap implements IWorldMap {
     @Override
     public String toString() {
         MapVisualizer drawing = new MapVisualizer(this);
-        this.lowerLeftMap = countLowerLeft();
-        this.upperRightMap = countUpperRight();
-        return drawing.draw(lowerLeftMap, upperRightMap);
+        return drawing.draw(countLowerLeft(), countUpperRight());
     }
+
 }

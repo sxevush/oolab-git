@@ -1,7 +1,6 @@
 package agh.ics.oop;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 
 /**
  * The interface responsible for interacting with the map of the world.
@@ -38,6 +37,9 @@ public interface IWorldMap {
      *            Position to check.
      * @return True if the position is occupied.
      */
+
+    // default boolean isOccupied(Vector2d position) {
+    //    return objectAt(position) != null; }
     boolean isOccupiedAnimal(Vector2d position);
 
     boolean isOccupiedGrass(Vector2d position);
@@ -50,8 +52,6 @@ public interface IWorldMap {
      * @return Object or null if the position is not occupied.
      */
     Object objectAt(Vector2d position);
-
-    List<Animal> animals = new ArrayList<>();
-
+    Map<Vector2d, Animal> getAnimals();
 
 }
