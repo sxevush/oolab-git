@@ -4,14 +4,21 @@ import java.util.*;
 
 public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver {
 
-    abstract protected Vector2d countLowerLeft ();
-
-    abstract protected Vector2d countUpperRight ();
+    abstract public Vector2d countLowerLeft ();
+    abstract public Vector2d countUpperRight ();
     protected Map<Vector2d, Animal> animals = new HashMap<>();
+    public MapBoundary mapBoundary = new MapBoundary();
+
+    public MapBoundary getMapBoundary() {
+        return mapBoundary;
+    }
 
     public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
-        animals.put(newPosition, animals.get(oldPosition));
-        animals.remove(oldPosition);
+        Animal animal = animals.remove(oldPosition);
+        if (animal != null) {
+            animals.put(newPosition, animal);
+        }
+        mapBoundary.positionChanged(oldPosition, newPosition);
     }
 
     public Map<Vector2d, Animal> getAnimals() {
@@ -26,13 +33,14 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
 
 
     @Override
-    public boolean place(Animal animal) {
+    public boolean place(Animal animal) throws IllegalArgumentException{
         if (canMoveTo(animal.getAnimalPosition())) {
             animals.put(animal.getAnimalPosition(), animal);
+            mapBoundary.addPosition(animal.getAnimalPosition());
             animal.addObserver(this);
             return true;
         }
-        return false;
+        throw new IllegalArgumentException("could not place the animal on " + animal.getAnimalPosition());
     }
 
     @Override

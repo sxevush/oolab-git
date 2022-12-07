@@ -1,7 +1,5 @@
 package agh.ics.oop;
 
-import org.jetbrains.annotations.Nullable;
-
 import java.util.Objects;
 import java.util.stream.Stream;
 
@@ -15,14 +13,13 @@ public class OptionsParser {
 
     }
 
-    @Nullable
     private static MoveDirection convertToMoveDirection(String instruction) {
         return switch (instruction) {
             case "f", "forward" -> MoveDirection.FORWARD;
             case "b", "backward" -> MoveDirection.BACKWARD;
             case "r", "right" -> MoveDirection.RIGHT;
             case "l", "left" -> MoveDirection.LEFT;
-            default -> null;
+            default -> throw new IllegalArgumentException(instruction + " is not legal move specification");
         };
     }
 }

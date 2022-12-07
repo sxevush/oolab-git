@@ -5,38 +5,28 @@ import java.lang.Math;
 
 public class GrassField extends AbstractWorldMap {
 
-    int POSITIVE_INFINITY = Integer.MAX_VALUE;
-    int NEGATIVE_INFINITY = Integer.MIN_VALUE;
     public GrassField(int fieldsOfGrass) {
         putGrassFields(fieldsOfGrass);
     }
 
     protected Map<Vector2d, Grass> grass = new HashMap<>();
 
+    public boolean place(Animal animal) throws IllegalArgumentException{
+        if (super.place(animal)){
+            mapBoundary.addPosition(animal.getAnimalPosition());
+            return true;
+        }
+        throw new IllegalArgumentException("cannot place animal on" + animal.getAnimalPosition());
+    }
+
     @Override
     public Vector2d countLowerLeft () {
-        Vector2d lowerLeftResult = new Vector2d(POSITIVE_INFINITY, POSITIVE_INFINITY);
-
-        for (Animal animal : animals.values()) {
-            lowerLeftResult = animal.getAnimalPosition().lowerLeft(lowerLeftResult);
-        }
-        for (Grass grass1 : grass.values()) {
-            lowerLeftResult = grass1.getGrassPosition().lowerLeft(lowerLeftResult);
-        }
-        return lowerLeftResult;
+        return mapBoundary.countLowerLeft();
     }
 
     @Override
     public Vector2d countUpperRight () {
-        Vector2d upperRightResult = new Vector2d(NEGATIVE_INFINITY, NEGATIVE_INFINITY);
-        for (Animal animal : animals.values()) {
-            upperRightResult = animal.getAnimalPosition().upperRight(upperRightResult);
-        }
-        for (Grass grass1 : grass.values()) {
-            upperRightResult = grass1.getGrassPosition().upperRight(upperRightResult);
-        }
-
-        return upperRightResult;
+        return mapBoundary.countUpperRight();
     }
 
     public void putGrassFields (int fieldsOfGrass) {
@@ -54,23 +44,16 @@ public class GrassField extends AbstractWorldMap {
             }
             Grass newGrass = new Grass(positionOfGrass);
             grass.put(positionOfGrass, newGrass);
+            mapBoundary.addPosition(positionOfGrass);
         }
     }
 
     @Override
-    public boolean canMoveTo(Vector2d position) {
-        return (!this.isOccupiedAnimal(position));
-
-        // objectAt
-        // obj instanceof grass
-    }
-
-
+    public boolean canMoveTo(Vector2d position) { return (!this.isOccupiedAnimal(position)); }
 
     public boolean isOccupiedGrass(Vector2d position) {
         return grass.containsKey(position);
     }
-
 
     public Animal objectAtAnimal(Vector2d position) {
         return animals.getOrDefault(position, null);
