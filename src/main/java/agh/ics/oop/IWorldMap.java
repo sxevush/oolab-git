@@ -47,11 +47,10 @@ public interface IWorldMap extends IPositionChangeObserver {
     /**
      * Return an object at a given position.
      *
-     * @param position
-     *            The position of the object.
+     * @param position The position of the object.
      * @return Object or null if the position is not occupied.
      */
-    Object objectAt(Vector2d position);
+    IMapElement objectAt(Vector2d position);
     Map<Vector2d, Animal> getAnimals();
     MapBoundary getMapBoundary();
 

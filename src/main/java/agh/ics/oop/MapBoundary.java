@@ -5,7 +5,6 @@ import java.util.TreeSet;
 
 public class MapBoundary implements IPositionChangeObserver {
 
-
     private final SortedSet<Vector2d> xSorted = new TreeSet<>((o1, o2) -> {
         if (o1.x == o2.x) { return o1.y - o2.y; }
         return o1.x - o2.x;
