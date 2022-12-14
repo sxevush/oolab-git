@@ -8,19 +8,23 @@ public class Animal {
     private final IWorldMap map;
     private MapDirection animalDirection;
     private Vector2d animalPosition;
-    protected List<IPositionChangeObserver> observers = new ArrayList<>();
+    protected MapBoundary mapBoundary;
+    protected List<IWorldMap> observers = new ArrayList<>();
 
-    protected void addObserver(IPositionChangeObserver observer) {
+
+
+    public void addObserver(IWorldMap observer) {
         observers.add(observer);
     }
 
-    protected void removeObserver(IPositionChangeObserver observer) {
+    public void removeObserver(IWorldMap observer) {
         observers.remove(observer);
     }
 
-    protected void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
-        for (IPositionChangeObserver observer : observers) {
+    private void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
+        for (IWorldMap observer : observers) {
             observer.positionChanged(oldPosition, newPosition);
+            mapBoundary.positionChanged(oldPosition, newPosition);
         }
     }
 
@@ -28,6 +32,7 @@ public class Animal {
         this.map = map;
         this.animalPosition = initialPosition;
         this.animalDirection = MapDirection.NORTH;
+        mapBoundary = map.getMapBoundary();
     }
 
 
@@ -55,6 +60,7 @@ public class Animal {
                 Vector2d animalPositionSubtracted = animalPosition.subtract(animalDirection.toUnitVector());
                 if (map.canMoveTo(animalPositionSubtracted)) {
                     positionChanged(animalPosition, animalPositionSubtracted);
+                    mapBoundary.positionChanged(animalPosition, animalPositionSubtracted);
                     animalPosition = animalPositionSubtracted;
 
                 }
@@ -63,6 +69,7 @@ public class Animal {
                 Vector2d animalPositionAdded = animalPosition.add(animalDirection.toUnitVector());
                 if (map.canMoveTo(animalPositionAdded)) {
                     positionChanged(animalPosition, animalPositionAdded);
+                    mapBoundary.positionChanged(animalPosition, animalPositionAdded);
                     animalPosition = animalPositionAdded;
                 }
             }

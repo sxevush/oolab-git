@@ -9,7 +9,7 @@ import java.util.Map;
  * @author apohllo
  *
  */
-public interface IWorldMap {
+public interface IWorldMap extends IPositionChangeObserver {
     /**
      * Indicate if any object can move to the given position.
      *
@@ -53,5 +53,6 @@ public interface IWorldMap {
      */
     Object objectAt(Vector2d position);
     Map<Vector2d, Animal> getAnimals();
+    MapBoundary getMapBoundary();
 
 }
