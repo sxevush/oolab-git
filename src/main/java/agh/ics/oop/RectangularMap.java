@@ -32,7 +32,7 @@ public class RectangularMap extends AbstractWorldMap {
 
 
     @Override
-    public Animal objectAt(Vector2d position) {
+    public IMapElement objectAt(Vector2d position) {
         return animals.getOrDefault(position, null);
     }
 

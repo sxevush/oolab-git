@@ -64,7 +64,7 @@ public class GrassField extends AbstractWorldMap {
     }
 
     @Override
-    public Object objectAt(Vector2d position) {
+    public IMapElement objectAt(Vector2d position) {
         if (objectAtAnimal(position) != null) {
             return objectAtAnimal(position);
         }

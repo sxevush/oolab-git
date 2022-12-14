@@ -3,26 +3,26 @@ package agh.ics.oop;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Animal {
+public class Animal implements IMapElement {
 
     private final IWorldMap map;
     private MapDirection animalDirection;
     private Vector2d animalPosition;
     protected MapBoundary mapBoundary;
-    protected List<IWorldMap> observers = new ArrayList<>();
+    protected List<IPositionChangeObserver> observers = new ArrayList<>();
 
 
 
-    public void addObserver(IWorldMap observer) {
+    public void addObserver(IPositionChangeObserver observer) {
         observers.add(observer);
     }
 
-    public void removeObserver(IWorldMap observer) {
+    public void removeObserver(IPositionChangeObserver observer) {
         observers.remove(observer);
     }
 
     private void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
-        for (IWorldMap observer : observers) {
+        for (IPositionChangeObserver observer : observers) {
             observer.positionChanged(oldPosition, newPosition);
             mapBoundary.positionChanged(oldPosition, newPosition);
         }
@@ -62,7 +62,6 @@ public class Animal {
                     positionChanged(animalPosition, animalPositionSubtracted);
                     mapBoundary.positionChanged(animalPosition, animalPositionSubtracted);
                     animalPosition = animalPositionSubtracted;
-
                 }
             }
             case FORWARD -> {
@@ -77,8 +76,18 @@ public class Animal {
     }
 
 
+    @Override
+    public String getImage() {
+        return switch (animalDirection) {
+            case NORTH -> "src/main/resources/up.png";
+            case SOUTH -> "src/main/resources/down.png";
+            case WEST -> "src/main/resources/left.png";
+            case EAST -> "src/main/resources/right.png";
+        };
+    }
 
-
-
-
+    @Override
+    public Vector2d getPosition() {
+        return animalPosition;
+    }
 }
